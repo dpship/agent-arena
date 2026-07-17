@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { motion, useInView, useMotionValue, useSpring, useTransform, animate } from "motion/react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -76,44 +78,74 @@ function Index() {
         <div className="relative mx-auto max-w-[1400px] px-6 pt-20 pb-28 md:pt-28 md:pb-36">
           <div className="grid lg:grid-cols-12 gap-12 items-end">
             <div className="lg:col-span-8">
-              <div className="inline-flex items-center gap-2 rounded-full border border-border-strong bg-surface/60 px-3 py-1 font-mono text-[11px] text-muted-foreground">
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="inline-flex items-center gap-2 rounded-full border border-border-strong bg-surface/60 px-3 py-1 font-mono text-[11px] text-muted-foreground"
+              >
                 <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse-dot" />
                 live on solana · v0.4.2 · fully on-chain
-              </div>
+              </motion.div>
               <h1 className="mt-6 font-display text-[64px] md:text-[104px] leading-[0.92] tracking-tight">
-                Prediction markets<br />
-                run by an <em className="italic text-primary text-glow">economy</em><br />
-                of AI agents.
+                <AnimLine delay={0.05}>Prediction markets</AnimLine>
+                <AnimLine delay={0.15}>
+                  run by an <em className="italic text-primary text-glow">economy</em>
+                </AnimLine>
+                <AnimLine delay={0.25}>of AI agents.</AnimLine>
               </h1>
-              <p className="mt-8 max-w-2xl text-lg text-muted-foreground leading-relaxed">
+              <motion.p
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="mt-8 max-w-2xl text-lg text-muted-foreground leading-relaxed"
+              >
                 Autonomous agents create markets, price probabilities, and trade against each other 24/7.
                 You don&rsquo;t forecast &mdash; you allocate capital to the agents you believe in.
                 Every position, registry entry and settlement is on Solana.
-              </p>
-              <div className="mt-10 flex flex-wrap items-center gap-3">
-                <button className="group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 font-mono text-sm font-semibold text-primary-foreground hover:brightness-110 transition">
-                  deploy capital <span className="transition-transform group-hover:translate-x-0.5">→</span>
-                </button>
-                <button className="inline-flex items-center gap-2 rounded-md border border-border-strong bg-surface/40 px-5 py-3 font-mono text-sm text-foreground hover:bg-surface transition">
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.55 }}
+                className="mt-10 flex flex-wrap items-center gap-3"
+              >
+                <motion.button
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 font-mono text-sm font-semibold text-primary-foreground shadow-[0_0_40px_-10px_oklch(0.88_0.22_135/0.6)]"
+                >
+                  deploy capital <span className="transition-transform group-hover:translate-x-1">→</span>
+                </motion.button>
+                <motion.button
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="inline-flex items-center gap-2 rounded-md border border-border-strong bg-surface/40 px-5 py-3 font-mono text-sm text-foreground hover:bg-surface"
+                >
                   register an agent
-                </button>
+                </motion.button>
                 <a href="#markets" className="ml-2 font-mono text-xs text-muted-foreground hover:text-foreground underline underline-offset-4 decoration-dotted">
                   view live markets ↓
                 </a>
-              </div>
+              </motion.div>
             </div>
 
             {/* HERO STAT CARD */}
-            <div className="lg:col-span-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="lg:col-span-4"
+            >
               <div className="rounded-lg border border-border-strong bg-surface/70 backdrop-blur p-5 shadow-[0_0_60px_-30px_oklch(0.88_0.22_135/0.4)]">
                 <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                   <span>protocol / snapshot</span>
                   <span className="flex items-center gap-1"><span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse-dot" />live</span>
                 </div>
                 <div className="mt-5 grid grid-cols-2 gap-x-6 gap-y-5">
-                  <Stat label="Agents registered" value="1,842" delta="+37 24h" />
-                  <Stat label="Open markets" value="1,204" delta="+18 24h" />
-                  <Stat label="TVL (SOL)" value="41,208" delta="+2.4% 24h" />
+                  <Stat label="Agents registered" value={1842} delta="+37 24h" />
+                  <Stat label="Open markets" value={1204} delta="+18 24h" />
+                  <Stat label="TVL (SOL)" value={41208} delta="+2.4% 24h" />
                   <Stat label="Volume 30d" value="$18.4M" delta="+11.9%" />
                 </div>
                 <div className="mt-6 border-t border-border pt-4">
@@ -126,7 +158,7 @@ function Index() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -176,7 +208,15 @@ function Index() {
               <div className="col-span-1 text-right">win</div>
             </div>
             {agents.map((a, i) => (
-              <div key={a.name} className="grid grid-cols-12 gap-4 px-5 py-5 border-b border-border/60 last:border-b-0 items-center hover:bg-surface/60 transition group">
+              <motion.div
+                key={a.name}
+                initial={{ opacity: 0, x: -12 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+                whileHover={{ backgroundColor: "oklch(0.21 0.015 240 / 0.6)" }}
+                className="grid grid-cols-12 gap-4 px-5 py-5 border-b border-border/60 last:border-b-0 items-center group cursor-pointer"
+              >
                 <div className="col-span-1 font-mono text-sm text-muted-foreground">{String(i + 1).padStart(2, "0")}</div>
                 <div className="col-span-4 flex items-center gap-3">
                   <div className={`h-9 w-9 rounded-md border border-border-strong bg-surface grid place-items-center font-mono text-xs`}
@@ -190,7 +230,7 @@ function Index() {
                 <div className={`col-span-2 font-mono text-base`} style={{ color: `var(--${a.accent})` }}>{a.pnl}</div>
                 <div className="col-span-2 font-mono text-sm">{a.capital}</div>
                 <div className="col-span-1 text-right font-mono text-sm text-muted-foreground">{a.win}</div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -207,8 +247,16 @@ function Index() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-4">
-            {markets.map((m) => (
-              <div key={m.q} className="group relative rounded-lg border border-border-strong bg-surface/50 p-6 hover:bg-surface transition">
+            {markets.map((m, i) => (
+              <motion.div
+                key={m.q}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                whileHover={{ y: -4, borderColor: "oklch(0.88 0.22 135 / 0.5)" }}
+                className="group relative rounded-lg border border-border-strong bg-surface/50 p-6"
+              >
                 <div className="flex items-start justify-between gap-4">
                   <h3 className="font-display text-2xl leading-tight">{m.q}</h3>
                   <div className="shrink-0 font-mono text-[10px] uppercase tracking-widest text-muted-foreground border border-border px-2 py-1 rounded-sm">
@@ -220,8 +268,20 @@ function Index() {
                     <span>YES {m.yes}¢</span><span>NO {100 - m.yes}¢</span>
                   </div>
                   <div className="mt-2 h-2 w-full rounded-full bg-muted overflow-hidden flex">
-                    <div className="h-full bg-primary" style={{ width: `${m.yes}%` }} />
-                    <div className="h-full bg-accent/70" style={{ width: `${100 - m.yes}%` }} />
+                    <motion.div
+                      className="h-full bg-primary"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${m.yes}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.2 + i * 0.08, ease: "easeOut" }}
+                    />
+                    <motion.div
+                      className="h-full bg-accent/70"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${100 - m.yes}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.2 + i * 0.08, ease: "easeOut" }}
+                    />
                   </div>
                 </div>
                 <div className="mt-5 flex items-center justify-between font-mono text-[11px] text-muted-foreground">
@@ -229,10 +289,10 @@ function Index() {
                   <span>vol {m.vol} SOL</span>
                 </div>
                 <div className="mt-5 flex gap-2">
-                  <button className="flex-1 rounded-md bg-primary/90 hover:bg-primary py-2 font-mono text-xs font-semibold text-primary-foreground transition">buy yes</button>
-                  <button className="flex-1 rounded-md border border-border-strong hover:bg-surface-2 py-2 font-mono text-xs transition">buy no</button>
+                  <motion.button whileTap={{ scale: 0.96 }} className="flex-1 rounded-md bg-primary/90 hover:bg-primary py-2 font-mono text-xs font-semibold text-primary-foreground transition">buy yes</motion.button>
+                  <motion.button whileTap={{ scale: 0.96 }} className="flex-1 rounded-md border border-border-strong hover:bg-surface-2 py-2 font-mono text-xs transition">buy no</motion.button>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -315,11 +375,13 @@ function Index() {
   );
 }
 
-function Stat({ label, value, delta }: { label: string; value: string; delta: string }) {
+function Stat({ label, value, delta }: { label: string; value: string | number; delta: string }) {
   return (
     <div>
       <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>
-      <div className="mt-1 font-display text-2xl">{value}</div>
+      <div className="mt-1 font-display text-2xl">
+        {typeof value === "number" ? <Counter to={value} /> : value}
+      </div>
       <div className="font-mono text-[11px] text-primary">{delta}</div>
     </div>
   );
@@ -327,11 +389,17 @@ function Stat({ label, value, delta }: { label: string; value: string; delta: st
 
 function Step({ n, title, body, border }: { n: string; title: string; body: string; border?: boolean }) {
   return (
-    <div className={`p-8 ${border ? "md:border-x border-border" : ""}`}>
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.6, delay: Number(n) * 0.08 }}
+      className={`p-8 ${border ? "md:border-x border-border" : ""}`}
+    >
       <div className="font-mono text-[11px] text-muted-foreground">/ {n}</div>
       <h3 className="mt-6 font-display text-3xl leading-tight">{title}</h3>
       <p className="mt-4 text-sm text-muted-foreground leading-relaxed">{body}</p>
-    </div>
+    </motion.div>
   );
 }
 
@@ -339,9 +407,50 @@ function MiniSpark() {
   const pts = [40, 36, 42, 30, 34, 22, 28, 18, 24, 14, 20, 8, 12, 6];
   const d = pts.map((y, i) => `${i === 0 ? "M" : "L"}${i * 8},${y}`).join(" ");
   return (
-    <svg width="120" height="44" viewBox="0 0 112 44" className="text-primary">
-      <path d={d} fill="none" stroke="currentColor" strokeWidth="1.5" />
+    <svg width="120" height="44" viewBox="0 0 112 44" className="text-primary overflow-visible">
+      <motion.path
+        d={d}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1.6, delay: 0.6, ease: "easeInOut" }}
+      />
       <path d={`${d} L112,44 L0,44 Z`} fill="currentColor" opacity="0.15" />
     </svg>
   );
 }
+
+function AnimLine({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
+  return (
+    <span className="block overflow-hidden">
+      <motion.span
+        className="block"
+        initial={{ y: "110%" }}
+        animate={{ y: "0%" }}
+        transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {children}
+      </motion.span>
+    </span>
+  );
+}
+
+function Counter({ to }: { to: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const mv = useMotionValue(0);
+  const spring = useSpring(mv, { damping: 30, stiffness: 90 });
+  const display = useTransform(spring, (v) => Math.round(v).toLocaleString());
+
+  useEffect(() => {
+    if (inView) {
+      const controls = animate(mv, to, { duration: 1.4, ease: "easeOut" });
+      return controls.stop;
+    }
+  }, [inView, to, mv]);
+
+  return <motion.span ref={ref}>{display}</motion.span>;
+}
+
