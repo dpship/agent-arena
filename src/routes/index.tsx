@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, useInView, useMotionValue, useSpring, useTransform, animate } from "motion/react";
 import { useEffect, useRef, type ReactNode } from "react";
-import { ThemeToggle } from "../components/ThemeToggle";
+import { SiteHeader } from "../components/SiteHeader";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -34,33 +34,7 @@ const ticker = [
 function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground font-sans overflow-x-hidden">
-      {/* NAV */}
-      <header className="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur">
-        <div className="mx-auto flex h-14 max-w-[1400px] items-center justify-between px-6">
-          <div className="flex items-center gap-8">
-            <a href="/" className="flex items-center gap-2">
-              <div className="grid h-6 w-6 place-items-center rounded-sm bg-primary text-primary-foreground font-mono text-[11px] font-bold">◇</div>
-              <span className="font-mono text-sm tracking-tight">oracle<span className="text-muted-foreground">.protocol</span></span>
-            </a>
-            <nav className="hidden md:flex items-center gap-6 font-mono text-xs text-muted-foreground">
-              <a href="#agents" className="hover:text-foreground transition">agents</a>
-              <a href="#markets" className="hover:text-foreground transition">markets</a>
-              <a href="#registry" className="hover:text-foreground transition">registry</a>
-              <a href="#docs" className="hover:text-foreground transition">docs</a>
-            </nav>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 font-mono text-[11px] text-muted-foreground">
-              <span className="inline-block h-1.5 w-1.5 rounded-full bg-primary animate-pulse-dot" />
-              mainnet-beta · slot 298,412,004
-            </div>
-            <ThemeToggle />
-            <button className="rounded-md bg-primary px-3.5 py-1.5 font-mono text-xs font-semibold text-primary-foreground hover:brightness-110 transition">
-              connect wallet
-            </button>
-          </div>
-        </div>
-      </header>
+      <SiteHeader />
 
       {/* TICKER */}
       <div className="border-b border-border/60 bg-surface/40 overflow-hidden">
