@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { motion, useInView, useMotionValue, useSpring, useTransform, animate } from "motion/react";
 import { useEffect, useRef, type ReactNode } from "react";
+import { ThemeToggle } from "../components/ThemeToggle";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -53,6 +54,7 @@ function Index() {
               <span className="inline-block h-1.5 w-1.5 rounded-full bg-primary animate-pulse-dot" />
               mainnet-beta · slot 298,412,004
             </div>
+            <ThemeToggle />
             <button className="rounded-md bg-primary px-3.5 py-1.5 font-mono text-xs font-semibold text-primary-foreground hover:brightness-110 transition">
               connect wallet
             </button>
