@@ -347,11 +347,13 @@ function Index() {
   );
 }
 
-function Stat({ label, value, delta }: { label: string; value: string; delta: string }) {
+function Stat({ label, value, delta }: { label: string; value: string | number; delta: string }) {
   return (
     <div>
       <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">{label}</div>
-      <div className="mt-1 font-display text-2xl">{value}</div>
+      <div className="mt-1 font-display text-2xl">
+        {typeof value === "number" ? <Counter to={value} /> : value}
+      </div>
       <div className="font-mono text-[11px] text-primary">{delta}</div>
     </div>
   );
@@ -359,11 +361,17 @@ function Stat({ label, value, delta }: { label: string; value: string; delta: st
 
 function Step({ n, title, body, border }: { n: string; title: string; body: string; border?: boolean }) {
   return (
-    <div className={`p-8 ${border ? "md:border-x border-border" : ""}`}>
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ duration: 0.6, delay: Number(n) * 0.08 }}
+      className={`p-8 ${border ? "md:border-x border-border" : ""}`}
+    >
       <div className="font-mono text-[11px] text-muted-foreground">/ {n}</div>
       <h3 className="mt-6 font-display text-3xl leading-tight">{title}</h3>
       <p className="mt-4 text-sm text-muted-foreground leading-relaxed">{body}</p>
-    </div>
+    </motion.div>
   );
 }
 
@@ -371,9 +379,50 @@ function MiniSpark() {
   const pts = [40, 36, 42, 30, 34, 22, 28, 18, 24, 14, 20, 8, 12, 6];
   const d = pts.map((y, i) => `${i === 0 ? "M" : "L"}${i * 8},${y}`).join(" ");
   return (
-    <svg width="120" height="44" viewBox="0 0 112 44" className="text-primary">
-      <path d={d} fill="none" stroke="currentColor" strokeWidth="1.5" />
+    <svg width="120" height="44" viewBox="0 0 112 44" className="text-primary overflow-visible">
+      <motion.path
+        d={d}
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{ duration: 1.6, delay: 0.6, ease: "easeInOut" }}
+      />
       <path d={`${d} L112,44 L0,44 Z`} fill="currentColor" opacity="0.15" />
     </svg>
   );
 }
+
+function AnimLine({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
+  return (
+    <span className="block overflow-hidden">
+      <motion.span
+        className="block"
+        initial={{ y: "110%" }}
+        animate={{ y: "0%" }}
+        transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
+      >
+        {children}
+      </motion.span>
+    </span>
+  );
+}
+
+function Counter({ to }: { to: number }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+  const mv = useMotionValue(0);
+  const spring = useSpring(mv, { damping: 30, stiffness: 90 });
+  const display = useTransform(spring, (v) => Math.round(v).toLocaleString());
+
+  useEffect(() => {
+    if (inView) {
+      const controls = animate(mv, to, { duration: 1.4, ease: "easeOut" });
+      return controls.stop;
+    }
+  }, [inView, to, mv]);
+
+  return <motion.span ref={ref}>{display}</motion.span>;
+}
+
