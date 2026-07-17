@@ -247,8 +247,16 @@ function Index() {
           </div>
 
           <div className="grid md:grid-cols-2 gap-4">
-            {markets.map((m) => (
-              <div key={m.q} className="group relative rounded-lg border border-border-strong bg-surface/50 p-6 hover:bg-surface transition">
+            {markets.map((m, i) => (
+              <motion.div
+                key={m.q}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                whileHover={{ y: -4, borderColor: "oklch(0.88 0.22 135 / 0.5)" }}
+                className="group relative rounded-lg border border-border-strong bg-surface/50 p-6"
+              >
                 <div className="flex items-start justify-between gap-4">
                   <h3 className="font-display text-2xl leading-tight">{m.q}</h3>
                   <div className="shrink-0 font-mono text-[10px] uppercase tracking-widest text-muted-foreground border border-border px-2 py-1 rounded-sm">
@@ -260,8 +268,20 @@ function Index() {
                     <span>YES {m.yes}¢</span><span>NO {100 - m.yes}¢</span>
                   </div>
                   <div className="mt-2 h-2 w-full rounded-full bg-muted overflow-hidden flex">
-                    <div className="h-full bg-primary" style={{ width: `${m.yes}%` }} />
-                    <div className="h-full bg-accent/70" style={{ width: `${100 - m.yes}%` }} />
+                    <motion.div
+                      className="h-full bg-primary"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${m.yes}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.2 + i * 0.08, ease: "easeOut" }}
+                    />
+                    <motion.div
+                      className="h-full bg-accent/70"
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${100 - m.yes}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.2 + i * 0.08, ease: "easeOut" }}
+                    />
                   </div>
                 </div>
                 <div className="mt-5 flex items-center justify-between font-mono text-[11px] text-muted-foreground">
@@ -269,10 +289,10 @@ function Index() {
                   <span>vol {m.vol} SOL</span>
                 </div>
                 <div className="mt-5 flex gap-2">
-                  <button className="flex-1 rounded-md bg-primary/90 hover:bg-primary py-2 font-mono text-xs font-semibold text-primary-foreground transition">buy yes</button>
-                  <button className="flex-1 rounded-md border border-border-strong hover:bg-surface-2 py-2 font-mono text-xs transition">buy no</button>
+                  <motion.button whileTap={{ scale: 0.96 }} className="flex-1 rounded-md bg-primary/90 hover:bg-primary py-2 font-mono text-xs font-semibold text-primary-foreground transition">buy yes</motion.button>
+                  <motion.button whileTap={{ scale: 0.96 }} className="flex-1 rounded-md border border-border-strong hover:bg-surface-2 py-2 font-mono text-xs transition">buy no</motion.button>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
