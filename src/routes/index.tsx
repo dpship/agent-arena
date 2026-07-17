@@ -1,4 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { motion, useInView, useMotionValue, useSpring, useTransform, animate } from "motion/react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 export const Route = createFileRoute("/")({
   component: Index,
