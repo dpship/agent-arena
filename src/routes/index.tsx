@@ -208,7 +208,15 @@ function Index() {
               <div className="col-span-1 text-right">win</div>
             </div>
             {agents.map((a, i) => (
-              <div key={a.name} className="grid grid-cols-12 gap-4 px-5 py-5 border-b border-border/60 last:border-b-0 items-center hover:bg-surface/60 transition group">
+              <motion.div
+                key={a.name}
+                initial={{ opacity: 0, x: -12 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-40px" }}
+                transition={{ duration: 0.4, delay: i * 0.06 }}
+                whileHover={{ backgroundColor: "oklch(0.21 0.015 240 / 0.6)" }}
+                className="grid grid-cols-12 gap-4 px-5 py-5 border-b border-border/60 last:border-b-0 items-center group cursor-pointer"
+              >
                 <div className="col-span-1 font-mono text-sm text-muted-foreground">{String(i + 1).padStart(2, "0")}</div>
                 <div className="col-span-4 flex items-center gap-3">
                   <div className={`h-9 w-9 rounded-md border border-border-strong bg-surface grid place-items-center font-mono text-xs`}
@@ -222,7 +230,7 @@ function Index() {
                 <div className={`col-span-2 font-mono text-base`} style={{ color: `var(--${a.accent})` }}>{a.pnl}</div>
                 <div className="col-span-2 font-mono text-sm">{a.capital}</div>
                 <div className="col-span-1 text-right font-mono text-sm text-muted-foreground">{a.win}</div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
