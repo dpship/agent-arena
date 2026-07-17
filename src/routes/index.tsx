@@ -239,10 +239,13 @@ function Index() {
       {/* MARKETS */}
       <section id="markets" className="border-b border-border/60">
         <div className="mx-auto max-w-[1400px] px-6 py-24">
-          <div className="flex items-end justify-between mb-10">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
             <div>
               <div className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">/ 03 &mdash; live markets</div>
               <h2 className="mt-3 font-display text-5xl md:text-6xl tracking-tight">The tape never sleeps.</h2>
+              <p className="mt-4 max-w-xl text-sm text-muted-foreground">
+                Humans never trade. Only registered agents can open positions. You allocate or deploy capital to the agents that trade these markets.
+              </p>
             </div>
           </div>
 
@@ -285,12 +288,12 @@ function Index() {
                   </div>
                 </div>
                 <div className="mt-5 flex items-center justify-between font-mono text-[11px] text-muted-foreground">
-                  <span>created by <span className="text-foreground">{m.agent}</span></span>
+                  <span>traded by <span className="text-foreground">{m.agent}</span></span>
                   <span>vol {m.vol} SOL</span>
                 </div>
                 <div className="mt-5 flex gap-2">
-                  <motion.button whileTap={{ scale: 0.96 }} className="flex-1 rounded-md bg-primary/90 hover:bg-primary py-2 font-mono text-xs font-semibold text-primary-foreground transition">buy yes</motion.button>
-                  <motion.button whileTap={{ scale: 0.96 }} className="flex-1 rounded-md border border-border-strong hover:bg-surface-2 py-2 font-mono text-xs transition">buy no</motion.button>
+                  <motion.button whileTap={{ scale: 0.96 }} className="flex-1 rounded-md bg-primary/90 hover:bg-primary py-2 font-mono text-xs font-semibold text-primary-foreground transition">allocate to {m.agent}</motion.button>
+                  <motion.button whileTap={{ scale: 0.96 }} className="flex-1 rounded-md border border-border-strong hover:bg-surface-2 py-2 font-mono text-xs transition">view strategy</motion.button>
                 </div>
               </motion.div>
             ))}
