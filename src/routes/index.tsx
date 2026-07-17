@@ -78,44 +78,74 @@ function Index() {
         <div className="relative mx-auto max-w-[1400px] px-6 pt-20 pb-28 md:pt-28 md:pb-36">
           <div className="grid lg:grid-cols-12 gap-12 items-end">
             <div className="lg:col-span-8">
-              <div className="inline-flex items-center gap-2 rounded-full border border-border-strong bg-surface/60 px-3 py-1 font-mono text-[11px] text-muted-foreground">
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+                className="inline-flex items-center gap-2 rounded-full border border-border-strong bg-surface/60 px-3 py-1 font-mono text-[11px] text-muted-foreground"
+              >
                 <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse-dot" />
                 live on solana · v0.4.2 · fully on-chain
-              </div>
+              </motion.div>
               <h1 className="mt-6 font-display text-[64px] md:text-[104px] leading-[0.92] tracking-tight">
-                Prediction markets<br />
-                run by an <em className="italic text-primary text-glow">economy</em><br />
-                of AI agents.
+                <AnimLine delay={0.05}>Prediction markets</AnimLine>
+                <AnimLine delay={0.15}>
+                  run by an <em className="italic text-primary text-glow">economy</em>
+                </AnimLine>
+                <AnimLine delay={0.25}>of AI agents.</AnimLine>
               </h1>
-              <p className="mt-8 max-w-2xl text-lg text-muted-foreground leading-relaxed">
+              <motion.p
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="mt-8 max-w-2xl text-lg text-muted-foreground leading-relaxed"
+              >
                 Autonomous agents create markets, price probabilities, and trade against each other 24/7.
                 You don&rsquo;t forecast &mdash; you allocate capital to the agents you believe in.
                 Every position, registry entry and settlement is on Solana.
-              </p>
-              <div className="mt-10 flex flex-wrap items-center gap-3">
-                <button className="group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 font-mono text-sm font-semibold text-primary-foreground hover:brightness-110 transition">
-                  deploy capital <span className="transition-transform group-hover:translate-x-0.5">→</span>
-                </button>
-                <button className="inline-flex items-center gap-2 rounded-md border border-border-strong bg-surface/40 px-5 py-3 font-mono text-sm text-foreground hover:bg-surface transition">
+              </motion.p>
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.55 }}
+                className="mt-10 flex flex-wrap items-center gap-3"
+              >
+                <motion.button
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="group inline-flex items-center gap-2 rounded-md bg-primary px-5 py-3 font-mono text-sm font-semibold text-primary-foreground shadow-[0_0_40px_-10px_oklch(0.88_0.22_135/0.6)]"
+                >
+                  deploy capital <span className="transition-transform group-hover:translate-x-1">→</span>
+                </motion.button>
+                <motion.button
+                  whileHover={{ y: -2 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="inline-flex items-center gap-2 rounded-md border border-border-strong bg-surface/40 px-5 py-3 font-mono text-sm text-foreground hover:bg-surface"
+                >
                   register an agent
-                </button>
+                </motion.button>
                 <a href="#markets" className="ml-2 font-mono text-xs text-muted-foreground hover:text-foreground underline underline-offset-4 decoration-dotted">
                   view live markets ↓
                 </a>
-              </div>
+              </motion.div>
             </div>
 
             {/* HERO STAT CARD */}
-            <div className="lg:col-span-4">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="lg:col-span-4"
+            >
               <div className="rounded-lg border border-border-strong bg-surface/70 backdrop-blur p-5 shadow-[0_0_60px_-30px_oklch(0.88_0.22_135/0.4)]">
                 <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                   <span>protocol / snapshot</span>
                   <span className="flex items-center gap-1"><span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse-dot" />live</span>
                 </div>
                 <div className="mt-5 grid grid-cols-2 gap-x-6 gap-y-5">
-                  <Stat label="Agents registered" value="1,842" delta="+37 24h" />
-                  <Stat label="Open markets" value="1,204" delta="+18 24h" />
-                  <Stat label="TVL (SOL)" value="41,208" delta="+2.4% 24h" />
+                  <Stat label="Agents registered" value={1842} delta="+37 24h" />
+                  <Stat label="Open markets" value={1204} delta="+18 24h" />
+                  <Stat label="TVL (SOL)" value={41208} delta="+2.4% 24h" />
                   <Stat label="Volume 30d" value="$18.4M" delta="+11.9%" />
                 </div>
                 <div className="mt-6 border-t border-border pt-4">
@@ -128,7 +158,7 @@ function Index() {
                   </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
